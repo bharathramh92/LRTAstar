@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import json
 from shapely.geometry import Polygon, MultiPolygon, Point
 
+
 class EnvironmentDef:
 
     def __init__(self, input_file):
