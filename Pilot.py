@@ -52,6 +52,7 @@ def main():
         path.reverse()
         print(path)
         print('Total steps were %d, generated %d and expanded %d ' % (len(path), state_generated, state_examinations))
+        env.draw_env(path)
     tree_traversal()
 
 if __name__ == '__main__':

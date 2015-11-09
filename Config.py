@@ -64,7 +64,6 @@ class EnvironmentDef:
         #     print(polygon.bounds)
 
     def print_boxes(self):
-        self.boxes.reverse()
         for row in self.boxes:
             for element in row:
                 print(element, " ", end="")
@@ -77,14 +76,19 @@ class EnvironmentDef:
     def is_point_inside_box(self, x, y):
         return True if self.boxes[x][y] else False
 
-    def draw_env(self):
+    def draw_env(self, path):
         fig, ax = plt.subplots()
+        x_path, y_path = [], []
+        for ls in path:
+            x_path.append(ls.position[0])
+            y_path.append(ls.position[1])
         colors = 100*np.random.rand(len(self.plot_obstacles_polygon))
         p = PatchCollection(self.plot_obstacles_polygon, cmap=matplotlib.cm.jet, alpha=0.4)
         p.set_array(np.array(colors))
         ax.add_collection(p)
         plt.colorbar(p)
-        plt.plot([self.initial_state[0]], [self.initial_state[1]], 'bs', self.goal_state[0], self.goal_state[1], 'g^')
+        plt.plot([self.initial_state[0]], [self.initial_state[1]], 'bs', self.goal_state[0], self.goal_state[1], 'g^',
+                 x_path, y_path, '*')
         plt.axis([0, self.resolution, 0, self.resolution])
         plt.show()
 

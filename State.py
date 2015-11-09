@@ -1,6 +1,4 @@
-# NUM_ROWS = NUM_COLS = resolution = 100
 STEP_COST = 1
-GOAL_STATE = None
 
 
 class State:
@@ -19,7 +17,6 @@ class State:
 
     def heuristics(self):
         # h is based on manhattan distance from current state to goal state
-        print(type(self.position))
         self.h += abs(self.position[0]-self.GOAL_STATE.position[0]) + \
                   abs(self.position[1]-self.GOAL_STATE.position[1])
 
