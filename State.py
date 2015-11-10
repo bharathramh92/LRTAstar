@@ -29,19 +29,25 @@ class State:
         if i_row - 1 >= 0:     #left
             position = tuple((i_row - 1, y_col))
             # print('left' , position)
-            self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Left'))
+            if position not in self.obstacle_list:
+                self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Left'))
         if i_row + 1 < self.resolution:    #right
             position = tuple((i_row + 1, y_col))
             # print('right', position)
-            self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Right'))
+            if position not in self.obstacle_list:
+                self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Right'))
         if y_col - 1 >= 0:    #down
             position = tuple((i_row, y_col - 1))
             # print('up' , position)
-            self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Down'))
+            if position not in self.obstacle_list:
+                self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Down'))
         if y_col + 1 < self.resolution:    #up
             position = tuple((i_row, y_col + 1))
             # print('down', position)
-            self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Up'))
+            if position not in self.obstacle_list:
+                self.successor_list.append(State(position, self.resolution, self.obstacle_list, self.GOAL_STATE, operation='Up'))
+        # if len(self.successor_list) < 4:
+        #     print("Generated %d successors." % len(self.successor_list))
         return self.successor_list
 
     def __lt__(self, other):

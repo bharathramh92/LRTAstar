@@ -9,14 +9,16 @@ from shapely.geometry import Polygon, MultiPolygon, Point
 
 class EnvironmentDef:
 
-    def __init__(self, input_file):
+    def __init__(self, input_file, factor=5):
         self.plot_obstacles_polygon = []
         self.obs_polygon = MultiPolygon()
         self.initial_state, self.goal_state = [], []
         self.resolution = 0
         self.read_env_from_file(input_file)
         self.boxes = []
+        self.factor = factor
         self.convert_to_block()
+        # self.print_boxes()
 
     def read_env_from_file(self, input_file):
         try:
@@ -54,16 +56,17 @@ class EnvironmentDef:
                 break
         self.obs_polygon = MultiPolygon(temp_polygon_list)
 
-    def convert_to_block(self, factor=1):
+    def convert_to_block(self):
 
-        self.boxes = [[1 if self.internal_is_point_inside(i_x/factor, i_y/factor) else 0
-                       for i_x in range(0, self.resolution*factor)]
-                 for i_y in range(0, self.resolution*factor)]
+        self.boxes = [[1 if self.internal_is_point_inside(i_x/self.factor, i_y/self.factor) else 0
+                       for i_x in range(0, self.resolution*self.factor)]
+                 for i_y in range(0, self.resolution*self.factor)]
         # self.print_boxes()
         # for polygon in self.obs_polygon:
         #     print(polygon.bounds)
 
     def print_boxes(self):
+        self.boxes.reverse()
         for row in self.boxes:
             for element in row:
                 print(element, " ", end="")
@@ -73,8 +76,13 @@ class EnvironmentDef:
     def internal_is_point_inside(self, x, y):
         return Point(x, y).within(self.obs_polygon)
 
-    def is_point_inside_box(self, x, y):
-        return True if self.boxes[x][y] else False
+    def is_point_inside_box(self, y, x):
+        """
+        :param x:
+        :param y:
+        :return:True if point is inside, and False if outside
+        """
+        return False if self.boxes[x*self.factor][y*self.factor] == 0 else True
 
     def draw_env(self, path):
         fig, ax = plt.subplots()

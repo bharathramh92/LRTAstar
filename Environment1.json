@@ -1,6 +1,6 @@
 {
     "resolution": 100,
-    "initial_state": [14, 10],
+    "initial_state": [10, 10],
     "goal_state": [45, 27],
     "obstacles": [
         {
